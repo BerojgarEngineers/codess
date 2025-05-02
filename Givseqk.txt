@@ -1,0 +1,63 @@
+--------------Given sequence k = k1 <k2 < … <kn of n sorted keys, with a search 
+probability pi for each key ki . Build the Binary search tree that has the least search cost 
+given the access probability for each key? ------------
+
+import sys
+
+def optimal_bst(keys, probs):
+    n = len(keys)
+    cost = [[0] * n for _ in range(n)]
+    root = [[0] * n for _ in range(n)]
+    weight = [[0] * n for _ in range(n)]
+
+    for i in range(n):
+        cost[i][i] = probs[i]
+        weight[i][i] = probs[i]
+        root[i][i] = i
+
+    for length in range(2, n + 1):
+        for i in range(n - length + 1):
+            j = i + length - 1
+            cost[i][j] = sys.maxsize
+            weight[i][j] = weight[i][j - 1] + probs[j]
+
+            for r in range(i, j + 1):
+                c = 0
+                if r > i:
+                    c += cost[i][r - 1]
+                if r < j:
+                    c += cost[r + 1][j]
+                c += weight[i][j]
+
+                if c < cost[i][j]:
+                    cost[i][j] = c
+                    root[i][j] = r
+
+    return cost, root
+
+def build_tree(keys, root, i, j):
+    if i > j:
+        return None
+    r = root[i][j]
+    return {
+        'key': keys[r],
+        'left': build_tree(keys, root, i, r - 1),
+        'right': build_tree(keys, root, r + 1, j)
+    }
+
+def print_tree(node, indent=0):
+    if node is not None:
+        print_tree(node['right'], indent + 4)
+        print(" " * indent + f"{node['key']}")
+        print_tree(node['left'], indent + 4)
+
+# Example input
+keys = [10, 20, 30, 40]
+probs = [0.1, 0.2, 0.4, 0.3]
+
+cost, root = optimal_bst(keys, probs)
+print("Minimum expected search cost:", cost[0][len(keys) - 1])
+
+tree = build_tree(keys, root, 0, len(keys) - 1)
+print("\nOptimal BST structure:")
+print_tree(tree)
