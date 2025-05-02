@@ -1,0 +1,46 @@
+-----------Company maintains employee information as employee ID, name, 
+designation and salary. Allow user to add, delete information of employee. Display 
+information of particular employee. If employee does not exist an appropriate message is 
+displayed. If it is, then the system displays the employee details. Use index sequential file to 
+maintain the data. -----------
+
+class EmployeeDatabase:
+    def __init__(self):
+        self.employees = {}
+
+    def add_employee(self, emp_id, name, designation, salary):
+        if emp_id in self.employees:
+            print("Employee already exists!")
+        else:
+            self.employees[emp_id] = {
+                'name': name,
+                'designation': designation,
+                'salary': salary
+            }
+            print("Employee added successfully.")
+
+    def delete_employee(self, emp_id):
+        if emp_id in self.employees:
+            del self.employees[emp_id]
+            print("Employee deleted.")
+        else:
+            print("Employee not found!")
+
+    def display_employee(self, emp_id):
+        if emp_id in self.employees:
+            emp = self.employees[emp_id]
+            print(f"ID: {emp_id}")
+            print(f"Name: {emp['name']}")
+            print(f"Designation: {emp['designation']}")
+            print(f"Salary: {emp['salary']}")
+        else:
+            print("Employee not found!")
+
+# Example usage
+db = EmployeeDatabase()
+db.add_employee(101, "Alice", "Manager", 60000)
+db.add_employee(102, "Bob", "Engineer", 50000)
+
+db.display_employee(101)
+db.delete_employee(102)
+db.display_employee(102)
