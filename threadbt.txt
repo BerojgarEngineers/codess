@@ -1,0 +1,52 @@
+
+----------Convert given binary tree into threaded binary tree. Analyze time and
+space complexity of the algorithm.------------------------
+
+class Node:
+    def __init__(self, key):
+        self.key = key
+        self.left = None
+        self.right = None
+        self.isThreaded = False  # True if right pointer is a thread
+
+# Function to convert to threaded binary tree
+def convert_to_threaded(root):
+    def helper(node, prev):
+        if node is None:
+            return prev
+        prev = helper(node.left, prev)
+
+        if prev is not None and prev.right is None:
+            prev.right = node
+            prev.isThreaded = True
+
+        prev = node
+        return helper(node.right, prev)
+    
+    helper(root, None)
+
+# In-order traversal using threading
+def inorder(root):
+    current = root
+    while current.left:
+        current = current.left
+
+    while current:
+        print(current.key, end=' ')
+        if current.isThreaded:
+            current = current.right
+        else:
+            current = current.right
+            while current and current.left:
+                current = current.left
+
+# Example tree
+root = Node(10)
+root.left = Node(5)
+root.right = Node(15)
+root.left.left = Node(2)
+root.left.right = Node(7)
+
+convert_to_threaded(root)
+print("Inorder Traversal (Threaded Tree):")
+inorder(root)
