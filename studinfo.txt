@@ -1,0 +1,53 @@
+----------- Department maintains a student information. The file contains roll 
+number, name, division and address. Allow user to add, delete information of student. 
+Display information of particular employee. If record of student does not exist an 
+appropriate message is displayed. If it is, then the system displays the student details. Use 
+sequential file to main the data--------------
+
+
+FILENAME = "students.txt" 
+ 
+def add_student(roll, name, div, address): 
+    with open(FILENAME, "a") as f: 
+        f.write(f"{roll},{name},{div},{address}\n") 
+    print("Student added successfully.") 
+ 
+def delete_student(roll): 
+    found = False 
+    with open(FILENAME, "r") as f: 
+        lines = f.readlines() 
+    with open(FILENAME, "w") as f: 
+        for line in lines: 
+            if line.strip().split(",")[0] != roll: 
+                f.write(line) 
+            else: 
+                found = True 
+    print("Student deleted." if found else "Student not found.") 
+ 
+def display_student(roll): 
+    found = False 
+    with open(FILENAME, "r") as f: 
+        for line in f: 
+            data = line.strip().split(",") 
+            if data[0] == roll: 
+                print(f"Roll No: {data[0]}\nName: {data[1]}\nDivision: {data[2]}\nAddress: 
+{data[3]}") 
+                found = True 
+                break 
+    if not found: 
+        print("Student record not found.") 
+ 
+def display_all(): 
+    print("\nAll Student Records:") 
+    with open(FILENAME, "r") as f: 
+        for line in f: 
+            print(line.strip()) 
+ 
+# Example usage 
+add_student("101", "Alice", "A", "Pune") 
+add_student("102", "Bob", "B", "Mumbai") 
+ 
+display_student("101") 
+delete_student("102") 
+display_student("102") 
+display_all()
