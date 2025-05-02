@@ -1,0 +1,116 @@
+------------Beginning with an empty binary search tree, Construct binary search 
+tree by inserting the values in the order given. After constructing a binary tree - 
+i. Insert new node, ii. Find number of nodes in longest path from root, iii. Minimum data  
+value found in the tree, iv. Change a tree so that the roles of the left and right pointers  
+are swapped at every node, v. Search a value ----------
+
+class Node: 
+    def __init__(self, data): 
+        self.data = data 
+        self.left = None 
+        self.right = None 
+ 
+class BST: 
+    def __init__(self): 
+        self.root = None 
+ 
+    # 1. Insert node 
+    def insert(self, root, data): 
+        if root is None: 
+            return Node(data) 
+        if data < root.data: 
+            root.left = self.insert(root.left, data) 
+        else: 
+            root.right = self.insert(root.right, data) 
+        return root 
+ 
+    # 2. Find height (longest path) 
+    def find_height(self, root): 
+        if root is None: 
+            return 0 
+        return 1 + max(self.find_height(root.left), self.find_height(root.right)) 
+ 
+    # 3. Find minimum value 
+    def find_min(self, root): 
+        current = root 
+        while current.left: 
+            current = current.left 
+        return current.data 
+ 
+    # 4. Mirror the tree 
+    def mirror(self, root): 
+        if root: 
+            root.left, root.right = self.mirror(root.right), self.mirror(root.left) 
+        return root 
+ 
+    # 5. Search for a value 
+    def search(self, root, key): 
+        if root is None: 
+            return False 
+        if key == root.data: 
+            return True 
+        elif key < root.data: 
+            return self.search(root.left, key) 
+        else: 
+            return self.search(root.right, key) 
+ 
+    # Inorder traversal for display 
+    def inorder(self, root): 
+        if root: 
+            self.inorder(root.left) 
+            print(root.data, end=" ") 
+            self.inorder(root.right) 
+ 
+# --- MAIN EXECUTION --- 
+bst = BST() 
+ 
+# Build initial BST with these values 
+values = [50, 30, 70, 20, 40, 60, 80] 
+for val in values: 
+    bst.root = bst.insert(bst.root, val) 
+ 
+print("Inorder traversal of the original tree:") 
+bst.inorder(bst.root) 
+print() 
+ 
+# Insert new node 
+new_value = 65 
+bst.root = bst.insert(bst.root, new_value) 
+print(f"\nAfter inserting {new_value}:") 
+bst.inorder(bst.root) 
+print() 
+ 
+# Find height (longest path) 
+height = bst.find_height(bst.root) 
+print(f"\nHeight (longest path from root): {height}") 
+ 
+# Find minimum value 
+min_value = bst.find_min(bst.root) 
+print(f"Minimum value in BST: {min_value}") 
+ 
+# Mirror the tree 
+bst.mirror(bst.root) 
+print("\nInorder traversal after mirroring:") 
+bst.inorder(bst.root) 
+print() 
+ 
+# Search for a value 
+search_val = 40 
+found = bst.search(bst.root, search_val) 
+print(f"\nSearch for {search_val}: {'Found' if found else 'Not Found'}") 
+ 
+Output 
+ 
+Inorder traversal of the original tree: 
+20 30 40 50 60 70 80  
+ 
+After inserting 65: 
+20 30 40 50 60 65 70 80  
+ 
+Height (longest path from root): 4 
+Minimum value in BST: 20 
+ 
+Inorder traversal after mirroring: 
+80 70 65 60 50 40 30 20  
+ 
+Search for 40: Found 
