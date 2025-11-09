@@ -1,0 +1,116 @@
+create database vv;
+use vv;
+
+CREATE TABLE borrower (
+           roll_no INT,
+            name VARCHAR(25),
+            dateofissue DATE,
+           name_of_book VARCHAR(30),
+            status VARCHAR(20)
+);
+
+CREATE TABLE fine (
+           roll_no INT,
+           date_of_return DATE,
+           amt int
+          );
+		  
+		  INSERT INTO borrower
+          VALUES (
+            11,
+            'ANJALI',
+            '2025-09-30',
+            'OPERATING SYSTEM',
+           'ISSUED'
+         );
+
+
+ INSERT INTO borrower
+          VALUES (
+            12,
+            'HARSHADA',
+            '2023-09-29',
+            'DATA STRUCTURE',
+          'ISSUED'
+          );
+
+
+ INSERT INTO borrower
+          VALUES (
+            13,
+            'AJAY',
+           '2025-10-30',
+            'DATABASE MANAGEMENT SYSTEM',
+            'ISSUED'
+         );
+
+
+ INSERT INTO borrower
+          VALUES (
+            14,
+            'ABHISHEK',
+            '2025-11-01',
+            'COMPUTER NETWORK',
+           'ISSUED'
+          );
+
+
+  INSERT INTO borrower
+          VALUES (
+            15,
+            'JECITA',
+         '2025-10-25',
+           'DISCRETE MATHEMATICS',
+           'ISSUED'
+         );
+		 
+		 delimiter $
+		 CREATE PROCEDURE cal_fine(
+             IN i_roll_no INT,
+              IN in_name_of_book VARCHAR(30)
+          )
+         BEGIN
+             DECLARE no_of_days INT DEFAULT 0;
+              DECLARE return_date DATE DEFAULT CURRENT_DATE();
+              DECLARE doi DATE;
+              DECLARE fine_amt DECIMAL(10,2) DEFAULT 0.00;
+    
+   
+              SELECT dateofissue
+                INTO doi
+               FROM borrower
+               WHERE roll_no = i_roll_no
+                 AND name_of_book = in_name_of_book
+               LIMIT 1;
+    
+    
+              SET no_of_days = DATEDIFF(return_date, doi);
+    
+    
+             IF no_of_days > 15 AND no_of_days <= 30 THEN
+                 SET fine_amt = 5 * no_of_days;
+             ELSEIF no_of_days > 30 THEN
+                 SET fine_amt = 150 + (no_of_days - 30) * 50;
+            ELSE
+                 SET fine_amt = 0;
+             END IF;
+    
+    
+             INSERT INTO fine(roll_no, date_of_return, amt)
+            VALUES(i_roll_no, return_date, fine_amt);
+    
+    
+            UPDATE borrower
+               SET status = 'RETURNED'
+              WHERE roll_no = i_roll_no
+                 AND name_of_book = in_name_of_book;
+          END;
+   $
+   
+   delimiter ;
+   call cal_fine(15,'DISCRETE MATHEMATICS');
+   
+   select * from fine;
+   select * from borrower;
+   
+   select 15*5 +(35-30) *50;
