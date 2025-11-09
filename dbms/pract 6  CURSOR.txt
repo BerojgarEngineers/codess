@@ -1,0 +1,64 @@
+ Cursors: (All types: Implicit, Explicit, Cursor FOR Loop, Parameterized Cursor)
+Write a PL/SQL block of code using parameterized Cursor that will merge the data availablein
+the newly created table N_RollCall with the data available in the table O_RollCall. If the data in
+the first table already exist in the second table then that data should be skipped.
+
+
+
+
+
+create database cluch;
+
+ use cluch;
+ create table n_rollcall( rno int(11), name varchar(20), address varchar(30));
+
+ create table o_rollcall( rno int(11), name varchar(20), address varchar(30));
+
+ insert into n_rollcall values(1,'sunny','pune');
+
+insert into n_rollcall values(2,'harshit','Delhi');
+
+ insert into n_rollcall values(3,'Vivek','Telhara');
+
+ insert into n_rollcall values(4,'Sahil','Akola');
+
+ insert into o_rollcall values(1,'sunny','pune');
+ insert into o_rollcall values(2,'harshit','Delhi');
+
+insert into o_rollcall values(3,'Vivek','Telhara');
+ select * from n_rollcall;
+
+ select * from o_rollcall;
+
+ insert into o_rollcall values(5,'Vihan','Amravti');
+
+
+mysql> select * from o_rollcall;
+
+delimiter //
+create procedure n1(IN rno1 int)
+     begin
+    declare rno2 int;
+     declare exit_cond boolean;
+     declare c1 cursor for select rno from o_rollcall where rno>rno1;
+    declare continue handler for not found set exit_cond=TRUE;
+    open c1;
+     l1: loop
+     fetch c1 into rno2;
+     if not exists(select * from n_rollcall where rno=rno2) then
+     insert into n_rollcall select * from o_rollcall where rno=rno2;
+    end if;
+    if exit_cond then
+     close c1;
+    leave l1;
+    end if;
+    end loop l1;
+     end;
+     //
+
+
+delimiter ;
+ call n1(3);
+ select * from n_rollcall;
+
+
