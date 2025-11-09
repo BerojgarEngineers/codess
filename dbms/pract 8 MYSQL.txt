@@ -1,0 +1,78 @@
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Insert Student</h1>
+    <form method="POST" action="">
+        Roll No :<input type="text" name="r"><br><br>
+        Name :<input type="text" name="n"><br><br>
+        Gender:<input type="text" name="g"><br>
+        Marks :<input type="text" name="m"><br>
+        <input type="submit" name="s">
+        <input type="Delete" name="d">
+
+
+        <!-- Delete Form -->
+    <h2>Delete Student</h2>
+    
+        Roll No to Delete: <input type="text" name="delete"><br><br>
+        <input type="submit" name="d" value="Delete">
+
+
+        <h2>Update Student</h2>
+    
+        Roll No (to update): <input type="text" name="r_upd"><br><br>
+        New Name:            <input type="text" name="n_upd"><br><br>
+        New Gender:          <input type="text" name="g_upd"><br><br>
+        New Marks:           <input type="text" name="m_upd"><br><br>
+        <input type="submit" name="update" value="Update">
+
+</form>
+
+<?php
+$con = mysqli_connect('localhost','root','','database2');
+if(isset($_POST['s']))
+{
+$rollno=$_POST['r'];
+$name=$_POST['n'];
+$gender=$_POST['g'];
+$marks=$_POST['m'];
+$query="insert into studentdata(roll_no,name,gender,marks) values('$rollno','$name','$gender','$marks')";
+$run =mysqli_query($con,$query);
+}
+
+
+if(isset($_POST['d']))
+{
+$Rollno=$_POST['delete'];
+$query= "DELETE FROM studentdata WHERE roll_no = '$Rollno'";
+$runn =mysqli_query($con,$query);
+}
+
+
+// UPDATE logic
+if (isset($_POST['update'])) 
+    {
+    $rnUpd = $_POST['r_upd'];
+    $nUpd   =  $_POST['n_upd'];
+    $gUpd =  $_POST['g_upd'];
+    $mUpd  =  $_POST['m_upd'];
+
+
+    $query = "UPDATE studentdata SET name = '$nUpd', gender = '$gUpd', marks = '$mUpd' WHERE roll_no = '$rnUpd'";
+    $runnn =mysqli_query($con,$query);
+    }
+
+?>
+</body>
+</html>
+
+
+
+new : database_name ---create
+      table_name   ----create
+
