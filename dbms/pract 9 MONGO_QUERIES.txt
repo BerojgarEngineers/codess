@@ -1,0 +1,52 @@
+MongoDB Queries:
+Design and Develop MongoDB Queries using CRUD operations. (Use CRUD operations,
+SAVE method, logical operators etc.).
+
+mongosh
+show dbs;
+exit
+mongod;
+
+
+
+
+mongosh
+test> use book;
+switched to db book
+book> db.createCollection("Library");
+
+book> db.library.insertOne({ "bid": 1, "name": "c++" });
+book> db.library.insertOne({ "bid": 2, "name": "java" });
+book> db.library.insertOne({ "bid": 3, "name": "php" });
+book> db.library.find();
+
+
+
+book> db.library.updateOne({"name":"php"},{$set:{"name":"php3.7"}})
+book> db.library.find();
+
+book>  db.library.deleteOne({"bid":1});
+book> db.library.find();
+book> db.library.find({"name":"java"});
+
+book>  db.library.insertOne({"bid":4,"name":"java","desc":"fake book"});
+book>  db.library.find();
+book>  db.library.find({"name":"java"});
+
+book>  db.library.find({$and:[{"name":"java"},{"desc":"fake book"}]});
+book> db.library.find({$or:[{"name":"java"},{"desc":"fake book"}]});
+book> db.library.find({$or:[{"name":"java"},{"name":"php3.7"}]});
+
+book>  db.library.insertOne({"bid":4,"name":"my story","cost":500});
+book> db.library.insertOne({"bid":4,"name":"my story2.0","cost":800});
+book> db.library.insertOne({"bid":4,"name":"my story beta","cost":50});
+
+book> db.library.find({"cost":{$gte:100}})
+book> db.library.find({"cost":{$in:[100,200,300.500]}});
+book> db.library.find({"cost":{$nin:[100,200,300,500]}});
+
+book> db.library.save({"_id": ObjectId("123456789abcdef123456789"),"bid": 6,"name": "save query","cost": 10000})
+...
+
+book> db.library.find();
+book>
