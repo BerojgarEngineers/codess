@@ -1,0 +1,85 @@
+Database Connectivity:
+Write a program to implement MongoDB database connectivity with any front end language to
+implement Database navigation operations (add, delete, edit etc.)
+
+
+cd
+mkdir mongodb2
+cd mongodb2
+npm init --yes
+code .
+npm i express mongoose path nodemon
+node server.js
+npm install -g nodemon
+nodemon server.js
+
+
+
+
+
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form method="post" action="">
+        Registration Number:<br>
+        <input type="text" id="rn" name="rn"><br><br>
+        Name:<br>
+        <input type="text" id="n" name="n"><br><br>
+        Email:<br>
+        <input type="email" id="e" name="e"><br><br>
+        Branch:<br>
+        <select name="b" id="b">
+            <option value="c">CSE</option>
+             <option value="m">MECH</option>
+              <option value="i">IT</option>
+        </select><br><br>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+const express = require('express')
+const mongoose=require('mongoose')
+const path= require('path')
+const port=3019
+
+const app=express();
+
+mongoose.connect('mongodb://127.0.0.1:27017/students')
+const db=mongoose.connection
+db.once('open',()=>{
+    console.log("mongodb connection successful")
+})
+
+const userSchema = new mongoose.Schema({
+    rn:string,
+    n:string,
+    e:string,
+    b:string
+})
+
+const Users= mongoose.model("data",userSchema)
+
+app.get('/',(req,res)=>{
+    res.sendFile(path.join(__dirname,'form.html'))
+})
+
+app.listen(port,()=>
+{
+    console.log("server started")
+})
+
+
