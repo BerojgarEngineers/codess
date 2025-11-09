@@ -1,0 +1,73 @@
+
+
+ create database kulfi;
+ use kulfi;
+
+ CREATE TABLE stud_marks (
+       roll_number  INT,
+       name VARCHAR(25),
+   total_marks  INT
+    );
+
+
+ CREATE TABLE result_table (
+      roll_number  INT,
+       name   VARCHAR(25),
+       class  VARCHAR(30)
+     );
+
+
+ 
+ delimiter $
+ DROP PROCEDURE IF EXISTS proc_Grade;
+     CREATE PROCEDURE proc_Grade (
+         IN  p_roll_no INT,
+        IN  p_name    VARCHAR(25),
+         IN  p_marks   INT
+    )
+     BEGIN
+         IF p_marks BETWEEN 990 AND 1500 THEN
+            INSERT INTO result_table (roll_number, name, class)
+              VALUES (p_roll_no, p_name, 'DISTINCTION');
+         ELSEIF p_marks BETWEEN 900 AND 989 THEN
+             INSERT INTO result_table (roll_number, name, class)
+              VALUES (p_roll_no, p_name, 'FIRST CLASS');
+         ELSEIF p_marks BETWEEN 825 AND 899 THEN
+           INSERT INTO result_table (roll_number, name, class)
+              VALUES (p_roll_no, p_name, 'HIGHER SECOND CLASS');
+        ELSE
+            INSERT INTO result_table (roll_number, name, class)
+              VALUES (p_roll_no, p_name, 'FAIL');
+         END IF;
+    
+        INSERT INTO stud_marks (roll_number, name, total_marks)
+           VALUES (p_roll_no, p_name, p_marks);
+     END;
+    
+     DROP FUNCTION IF EXISTS fn_GetStatus;
+     CREATE FUNCTION fn_GetStatus(
+       p_roll_no INT,
+       p_name    VARCHAR(25),
+        p_marks   INT
+     ) RETURNS VARCHAR(20)
+    DETERMINISTIC
+     BEGIN
+         CALL proc_Grade(p_roll_no, p_name, p_marks);
+        RETURN 'SUCCESSFUL';
+     END;
+     $
+
+ delimiter ;
+ CALL proc_Grade(1, 'Alice', 1450);
+ SELECT fn_GetStatus(2, 'Bob', 920);
+
+ CALL proc_Grade(3, 'Carol', 1200);
+
+
+ SELECT fn_GetStatus(3, 'Carol', 1200);
+
+
+ SELECT * FROM result_table WHERE roll_number = 3;
+
+
+
