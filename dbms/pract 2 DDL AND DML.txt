@@ -1,0 +1,95 @@
+SQL Queries:
+a. Design and Develop SQL DDL statements which demonstrate the use of SQL objects such
+as Table, View, Index, Sequence, Synonym, different constraints etc.
+b. Write at least 10 SQL queries on the suitable database application using SQL DML
+statements.
+
+mysql> show databases;
+mysql> create database practical; 
+mysql> use practical;
+mysql> create table stud(rno int primary key auto_increment, name varchar(20), age int, marks int);
+mysql> desc stud;
+mysql> alter table stud modify age int not null; 
+mysql> desc stud;
+mysql> insert into stud(name,age,marks) values('Shital',18,85); Q
+mysql> insert into stud(name,age,marks) values('Sakshi',18,82); 
+mysql> insert into stud(name,age,marks) values('Sanket',19,80); 
+mysql> insert into stud(name,age,marks) values('Gayatri',17,90); 
+mysql> insert into stud(name,age,marks) values('Om',20,90); 
+mysql> select * from stud;
+
+mysql> update stud set age = 19 where rno = 4; 
+mysql> select * from stud;
+
+mysql> delete from stud where rno = 5; 
+mysql> select * from stud;
+
+
+mysql> select * from stud where name LIKE 'S%';
+mysql> select * from stud where name LIKE '%i';
+
+mysql> select name as student_Name from stud;
+mysql> select name as student_Name from stud order by name;
+
+mysql> select name as student_Name, Marks as topper from stud order by name LIMIT 3;
+mysql> select name as student_Name, Marks as topper from stud order by marks LIMIT 3;
+
+mysql> select rno, name from stud where rno >=2 and rno <=3;
+
+mysql> alter table stud add column city varchar(20); 
+
+mysql> insert into stud(name,age,marks,city) values('Pratik',21,55,'Nashik'); 
+mysql> insert into stud(name,age,marks,city) values('Abhishek',19,95,'Nashik');
+mysql> insert into stud(name,age,marks,city) values('Jacita',18,85,'Nashik'); 
+mysql> insert into stud(name,age,marks,city) values('Sonam',22,87,'Sinnar'); 
+mysql> update stud set city = 'Sinnar' where name = 'Shital';
+
+mysql> select * from stud;
+mysql> select MAX(marks) from stud;
+mysql> select MIN(marks) from stud;
+mysql> select COUNT(marks) from stud;
+mysql> select COUNT(marks) from stud where marks >=90;
+mysql> select SUM(marks) from stud;
+mysql> select SUM(marks / 10) from stud;
+mysql> select AVG(marks) from stud;
+mysql> select age, count(name) from stud group by age;
+mysql> select age, max(marks) from stud group by age;
+mysql> CREATE VIEW STUD_VIEW AS SELECT * FROM STUD;
+
+mysql> create view stud_view as select * from stud; 
+mysql> select * from stud_view;
+
+mysql> create view stud_view2 as select * from stud where city='Nashik'; 
+mysql> select * from stud_view2;
+
+mysql> update stud_view2 set marks = 96 where name = 'Pratik';
+mysql> select * from stud_view2; 
+mysql> drop view stud_view2;
+
+select * from stud_view2;
+mysql> rename table stud_view to view_stud; 
+
+mysql> select * from stud_view;
+mysql> select * from view_stud;
+
+mysql> create index nameindex on stud(name); 
+mysql> show index from stud;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
