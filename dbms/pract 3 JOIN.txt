@@ -1,0 +1,81 @@
+SQL Queries - all types of Join, Sub-Query and View:
+Write at least 10 SQL queries for suitable database application using SQL DML statements.
+
+ CREATE TABLE Student (
+     id int PRIMARY KEY AUTO_INCREMENT,
+     admission_no varchar(45) NOT NULL, first_name varchar(45) NOT NULL, last_name varchar(45) NOT NULL, age int,
+     city varchar(25) NOT NULL );
+
+CREATE TABLE Fee (
+      admission_no varchar(45) NOT NULL,
+      course varchar(45) NOT NULL,
+      amount_paid int
+    );
+
+ INSERT INTO Student(admission_no, first_name, last_name, age, city) VALUES (1001,'Shital','Gayke',18,'Sinnar');
+
+INSERT INTO Student(admission_no, first_name, last_name, age, city) VALUES (1002,'Sakshi','More',19,'Nashik');
+
+ INSERT INTO Student(admission_no, first_name, last_name, age, city) VALUES (1003,'Nidhi', 'Jadhav',17,'Nashik');
+
+ INSERT INTO Student(admission_no, first_name, last_name, age, city) VALUES (1004,'Ajay','Mendade',18,'Satpur');
+
+INSERT INTO Student(admission_no, first_name, last_name, age, city) VALUES (1005,'Prashant','More',19,'Wani');
+
+INSERT INTO Student(admission_no, first_name, last_name, age, city) VALUES (1006,'Alok', 'Pandit',18,'Nashik');
+
+mysql> INSERT INTO Student(admission_no, first_name, last_name, age, city) VALUES (1007,'Sanju', 'Banka',18,'Bhagur');
+
+mysql> INSERT INTO Fee (admission_no, course, amount_paid) VALUES
+(1001,'Android',10000);
+
+mysql> INSERT INTO Fee (admission_no, course, amount_paid) VALUES (1002,'Data Science',15000);
+
+mysql> INSERT INTO Fee (admission_no, course, amount_paid) VALUES (1003,'SQL',18000);
+mysql> INSERT INTO Fee (admission_no, course, amount_paid) VALUES (1004,'Python',20000);
+mysql> INSERT INTO Fee (admission_no, course, amount_paid) VALUES (1005,'Java',8000);
+INSERT INTO Fee (admission_no, course, amount_paid) VALUES (1010,'Machine Learning',25000);
+mysql> INSERT INTO Fee (admission_no, course, amount_paid) VALUES (1011,'Cyber Security',22000);
+
+mysql> SELECT * FROM Student;
+
+mysql> SELECT * FROM Fee;
+
+SELECT s.admission_no,s.first_name,s.last_name,f.course,f.amount_paid FROM Student s
+     INNER JOIN Fee f
+    ON s.admission_no = f.admission_no;
+
+SELECT s.admission_no,s.first_name,s.last_name,f.course,f.amount_paid FROM Student s LEFT JOIN Fee f ON s.admission_no = f.admission_no;
+
+SELECT s.admission_no,s.first_name,s.last_name,f.course,f.amount_paid FROM Student s RIGHT JOIN Fee f ON s.admission_no = f.admission_no;
+
+mysql> SELECT s.admission_no,
+            s.first_name,
+            s.last_name,
+            f.course,
+           f.amount_paid
+     FROM Student s
+    LEFT JOIN Fee f
+       ON s.admission_no = f.admission_no
+    
+     UNION
+    
+     SELECT s.admission_no,
+            s.first_name,
+            s.last_name,
+            f.course,
+            f.amount_paid
+     FROM Student s
+     RIGHT JOIN Fee f
+       ON s.admission_no = f.admission_no;
+
+mysql> select * FROM Fee where amount_paid = (select min(amount_paid) FROM Fee);
+
+
+
+
+
+
+
+
+
