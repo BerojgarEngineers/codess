@@ -1,0 +1,50 @@
+MongoDB - Aggregation and Indexing:
+Design and Develop MongoDB Queries using aggregation and indexing with suitable example
+using MongoDB.
+
+
+test> use pract10;
+
+pract10> db.pract10.insertOne({roll:1,name:'navin',subject:'oop',marks:78})
+
+pract10> db.pract10.insertOne({roll:2,name:'shreya',subject:'dsa',marks:79})
+
+pract10> db.pract10.insertOne({roll:3,name:'arnav',subject:'toc',marks:80})
+
+pract10> db.pract10.insertOne({roll:4,name:'vihan',subject:'c++',marks:81})
+
+pract10> db.pract10.insertOne({roll:5,name:'sanskruti',subject:'cn',marks:82})
+
+pract10> db.pract10.insertOne({roll:6,name:'amol',subject:'cn',marks:83})
+
+pract10> db.pract10.find();
+
+pract10> db.pract10.createIndex({name:1})
+
+pract10> db.pract10.getIndexes()
+
+pract10> db.pract10.find().sort({name:1})
+
+pract10> db.pract10.find().sort({name:-1})
+
+pract10> db.pract10.find({name:'shreya'})
+
+pract10> db.pract10.ensureIndex({roll:1},{unique:true})
+
+pract10> db.pract10.insertOne({roll:6,name:'amol',subject:'cn',marks:83})
+
+
+pract10> db.pract10.aggregate([{$group:{_id:"$subject",marks:{$min:"$marks"}}}])
+
+pract10> db.pract10.aggregate([{$group:{_id:"$subject",marks:{$max:"$marks"}}}])
+
+pract10> db.pract10.aggregate([{$group:{_id:"$subject",marks:{$avg:"$marks"}}}])
+
+pract10> db.pract10.aggregate([{$group:{_id:"$subject",marks:{$first:"$marks"}}}])
+
+pract10> db.pract10.aggregate([{$group:{_id:"$subject",marks:{$last:"$marks"}}}])
+
+pract10> db.pract10.aggregate([{$group:{_id:"$subject",marks:{$sum:"$marks"}}}])
+
+pract10> db.pract10.aggregate([{$group:{_id:"$subject",count:{$sum:1}}}])
+
