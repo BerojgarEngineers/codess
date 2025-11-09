@@ -1,0 +1,88 @@
+
+Database Trigger (All Types: Row level and Statement level triggers, Before and After
+Triggers).
+Write a database trigger on Library table. The System should keep track of the records that are
+being updated or deleted. The old value of updated or deleted records should be added in
+Library_Audit table
+  
+  
+  
+  
+  create database pp;
+
+ use pp;
+
+ create table stud(sid int primary key, name varchar(20),class varchar(10), age int , issued varchar(1));
+
+ create table returned(sid int, bname varchar(20),bauthor varchar(20));
+
+ insert into stud values(1,'Arnav','11-A',17,'I');
+
+ create table issued(sid int,bname varchar(20));
+
+alter table stud add column bname varchar(20);
+
+ desc stud;
+
+
+ delimiter //
+ create trigger tr_ins_stud
+     before insert
+     on stud
+     for each row
+     begin
+     insert into issued values(new.sid,new.bname);
+     end;
+     //
+
+delimiter ;
+insert into stud values(2,'Karan','2-A',20,'I','my story');
+     select * from issued;
+
+
+ delimiter //
+ create trigger tr_del_stud
+     after delete
+     on stud
+     for each row
+     begin
+     delete from issued where sid=old.sid;
+     end;
+     //
+
+
+ delimiter ;
+ delete from stud where sid=2;
+
+ select * from issued;
+
+
+delimiter //
+ create trigger tr_up_stud
+     after update
+     on stud
+     for each row
+     begin
+     update issued
+     set sid=new.sid where sid=old.sid;
+     end;
+     //
+
+
+ delimiter;
+    
+ update stud set sid=3 where sid=2;
+
+ select * from stud;
+
+ insert into stud values(2,'Karan','2-A',20,'I','my story');
+
+ create table stud(sid int primary key, name varchar(20),class varchar(10), age int , issued varchar
+    
+ update stud set sid=3 where sid=2;
+
+ select * from stud;
+
+ select * from issued;
+
+ show triggers;
