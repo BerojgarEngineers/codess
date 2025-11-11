@@ -1,0 +1,48 @@
+
+
+
+
+CREATE OR REPLACE PROCEDURE proc_Grade(
+ p_roll IN NUMBER,
+ p_name IN VARCHAR2,
+p_marks IN NUMBER
+ )
+ AS
+ BEGIN
+ IF p_marks BETWEEN 990 AND 1500 THEN
+ INSERT INTO RESULT VALUES(p_roll,p_name,'DISTINCTION');
+ 
+ ELSIF p_marks BETWEEN 990 AND 989 THEN
+  INSERT INTO RESULT VALUES(p_roll,p_name,'FIRST CLASS');
+ 
+ ELSIF p_marks BETWEEN 825 AND 899 THEN
+  INSERT INTO RESULT VALUES(p_roll,p_name,'HIGHER SECONDARY CLASS');
+ 
+ ELSE
+ INSERT INTO RESULT VALUES(p_roll,p_name,'FAIL');
+ END IF;
+ 
+ INSERT INTO stud1_marks VALUES(p_roll,p_name,p_marks);
+   END;
+  /
+  
+  CREATE OR REPLACE FUNCTION fn_GetStatus(
+  2  p_roll_no IN NUMBER,
+  3   p_name    IN VARCHAR2,
+  4   p_marks   IN NUMBER
+  5  )
+  6  RETURN VARCHAR2
+  7  is
+  8  begin
+  9   proc_Grade(p_roll_no, p_name, p_marks);
+ 10   RETURN 'SUCCESSFUL';
+ 11  end;
+ 12  /
+ 
+ 
+  BEGIN
+  2   DBMS_OUTPUT.PUT_LINE(fn_GetStatus(1, 'Shreya', 995));
+  3  end;
+  4  /
+  
+  
