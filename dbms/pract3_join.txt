@@ -1,0 +1,49 @@
+create table employee(emp_id number primary key,emp_name varchar(50));
+
+insert into employee values(1,'anil');
+insert into employee values(2,'suresh');
+ insert into employee values(3,'mahesh');
+ insert into employee values(4,'mohan');
+ insert into employee values(5,'sohan');
+ 
+ select * from employee;
+ 
+ create table employeeDetails(emp_id number not null,emp_age number not null,emp_address varchar(50) null, emp_salary number null);
+ 
+ insert into employeeDetails values(1,33,'delhi',2923.90);
+ insert into employeeDetails values(2,43,'ncr',3444.90);
+ insert into employeeDetails values(3,22,'haryana',3456.90);
+ insert into employeeDetails values(4,65,'up',5433.90);
+ insert into employeeDetails values(8,34,'delhi',4222.90);
+ insert into employeeDetails values(10,32,'delhi',4554.90);
+ 
+ select * from employeeDetails;
+ 
+ select emp.emp_id,emp_name ,ed.emp_age,emp_address,emp_salary
+ from employee emp
+ inner join employeeDetails ed
+ on (emp.emp_id=ed.emp_id);
+ 
+ select emp.emp_id,emp_name ,ed.emp_age,emp_address,emp_salary
+ from employee emp
+ left join employeeDetails ed
+ on (emp.emp_id=ed.emp_id);
+ 
+ select emp.emp_id,emp_name ,ed.emp_age,emp_address,emp_salary
+ from employee emp
+ right join employeeDetails ed
+ on (emp.emp_id=ed.emp_id);
+ 
+ select emp.emp_id,emp_name ,ed.emp_age,emp_address,emp_salary
+ from employee emp
+ full join employeeDetails ed
+ on (emp.emp_id=ed.emp_id);
+ 
+ select emp.emp_id,emp_name ,ed.emp_age,emp_address,emp_salary
+ from employee emp
+ cross join employeeDetails ed
+ on (emp.emp_id=ed.emp_id);
+ 
+ select * from employeeDetails where emp_salary=(select min(emp_salary) from employeeDetails);
+ select * from employeeDetails where emp_salary=(select max(emp_salary) from employeeDetails);
+ select * from employeeDetails ;
