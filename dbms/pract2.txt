@@ -1,0 +1,63 @@
+create table stud1(roll_no number(20) primary key,name varchar(30),class number(20),city varchar(30));
+
+insert into stud1 values(1,'shreya','10','telhara');
+ insert into stud1 values(2,'dhruv','10','pune');
+ 
+ select * from stud1;
+ 
+ create sequence seq
+    minvalue 1
+    maxvalue 10
+    increment by 1
+    start with 3
+    nocycle
+   cache 5;
+   
+   
+    SELECT min_value, max_value, sequence_name
+    FROM all_sequences
+    WHERE sequence_name = 'SEQ';
+	
+	insert into stud1 values(seq.nextval,'arnav','10','nashik');
+	  still upto 10 then exceed
+	  
+	  insert into stud1 values(seq1.nextval,'akshad','10','delhi');
+	  insert into stud1 values(seq1.nextval,'sanskruti','10','jalgaon');
+	  insert into stud1 values(seq1.nextval,'vihan','10','akola');
+	  insert into stud1 values(seq1.nextval,'pawan','10','akola');
+	  insert into stud1 values(seq1.nextval,'pooja','10','nandura');
+	   insert into stud1 values(seq1.nextval,'tanavi','10','amravti');
+	   insert into stud1 values(seq1.nextval,'anisha','10','shegaon');
+	   
+	   
+	   select * from stud1;
+	   
+	   create view view1 as select * from stud1;
+	   select * from view1;
+	   
+	   create view view2 as select * from stud1 where city='akola';
+	   select * from view2;
+	   
+	   update view2 set name='prachi' where name='pawan';
+	   select * from view2;
+	   
+	   rename  view2 to view3;
+	   select * from view2;
+	   select * from view3;
+	   
+	   create index indx_stud on stud1(name);
+	   desc user_indexes;
+	   
+	   CREATE SYNONYM STUD2 FOR STUD1;
+	   
+	   select
+	   
+	   create table s_stud(roll_no number constraint roll_no_pk1 primary key,
+  2  name varchar(20),
+  3  class number(20),
+  4  city varchar(20));
+  
+  select constraint_name,table_name from user_constraints where table_name='S_STUD';
+  
+  
+	   
