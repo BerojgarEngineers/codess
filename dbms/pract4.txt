@@ -1,0 +1,23 @@
+
+CREATE TABLE areas (
+  radius  NUMBER,
+  area    NUMBER
+);
+
+
+DECLARE
+  v_radius  NUMBER;
+  v_area    NUMBER;
+  c_pi      CONSTANT NUMBER := 3.141592653589793;
+BEGIN
+  FOR v_radius IN 5 .. 9 LOOP
+    v_area := c_pi * v_radius * v_radius;
+    INSERT INTO areas (radius, area)
+      VALUES (v_radius, v_area);
+  END LOOP;
+  
+  COMMIT;
+  
+  DBMS_OUTPUT.PUT_LINE('Inserted areas for radii 5 to 9.');
+END;
+/
