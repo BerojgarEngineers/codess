@@ -1,0 +1,52 @@
+create table n_rollcall( rno number(11), name varchar(20), address varchar(30));
+
+insert into n_rollcall values(1,'sunny','pune');
+insert into n_rollcall values(2,'harshit','Delhi');
+insert into n_rollcall values(3,'Vivek','Telhara');
+
+
+create table o_rollcall( rno number(11), name varchar(20), address varchar(30));
+
+insert into o_rollcall values(1,'sunny','pune');
+insert into o_rollcall values(2,'harshit','Delhi');
+insert into o_rollcall values(3,'Vivek','Telhara');
+insert into o_rollcall values(4,'Sahil','Akola');
+insert into o_rollcall values(5,'arnav','jalgaon');
+
+CREATE OR REPLACE PROCEDURE n1 (
+      rno1 IN NUMBER
+   )
+   IS
+     rno2 NUMBER;
+     CURSOR c1 IS SELECT rno
+          FROM o_rollcall
+         WHERE rno > rno1;
+   BEGIN
+     OPEN c1;
+     LOOP
+       FETCH c1 INTO rno2;
+       EXIT WHEN c1%NOTFOUND;
+ 
+       
+       DECLARE
+         v_count NUMBER;
+       BEGIN
+         SELECT COUNT(*) INTO v_count
+           FROM n_rollcall
+          WHERE rno = rno2;
+ 
+         IF v_count = 0 THEN
+           INSERT INTO n_rollcall
+             SELECT *FROM o_rollcall
+              WHERE rno = rno2;
+         END IF;
+ 
+       END;
+ 
+     END LOOP;
+     CLOSE c1;
+     COMMIT;
+   END n1;
+   /
+   
+   call n1(3);
