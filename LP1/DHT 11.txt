@@ -1,0 +1,22 @@
+#include<SO.h>
+#include<DHT.h>
+#define DHTPIN 4
+#define DHTTYPE DHT 11
+DHT dht(DHTPIN,DHTTYPE);
+void setup()
+{
+serial.begin(9600);
+serial.println("Humidity AND Temperature");
+dht.begin();
+}
+void loop()
+{
+delay(2000);
+float h=dht.readHumidity();
+float t=dht.readTemperature();
+serial.print("/nHumidity:");
+serial.print(h);
+serial.print("/nTemperature:")
+serial.print(t);
+serial.print("c");
+}
